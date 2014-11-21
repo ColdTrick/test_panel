@@ -17,21 +17,19 @@ function test_panel_pagesetup() {
 	}
 		
 	$groups = elgg_get_plugin_setting("group_guids", "test_panel");
-	if (empty($groups)) {
-		return;
-	}
+	if (!empty($groups)) {
+		$groups = explode(",", $groups);
 	
-	$groups = explode(",", $groups);
-
-	foreach ($groups as $group_guid) {
-		$group_guid = trim($group_guid);
-
-		$group = get_entity($group_guid);
-		if (!($group instanceof ElggGroup)) {
-			continue;
-		}
-		if ($group->isMember($user)) {
-			return;
+		foreach ($groups as $group_guid) {
+			$group_guid = trim($group_guid);
+	
+			$group = get_entity($group_guid);
+			if (!($group instanceof ElggGroup)) {
+				continue;
+			}
+			if ($group->isMember($user)) {
+				return;
+			}
 		}
 	}
 		
