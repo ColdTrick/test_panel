@@ -6,7 +6,7 @@ $content = elgg_get_plugin_setting("message_content", "test_panel", elgg_echo("l
 
 $head = elgg_view("page/elements/head");
 
-$body = "<div class='elgg-page elgg-page-default'>";
+$body = "<div class='elgg-page elgg-page-default elgg-page-test-panel'>";
 $body .= "<div class='elgg-page-body'>";
 $body .= "<div class='elgg-inner pvl'>";
 $body .= elgg_view_title($title);
