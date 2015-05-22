@@ -1,6 +1,11 @@
 <?php
 
-$plugin = $vars["entity"];
+$plugin = elgg_extract('entity', $vars);
+
+$yesno_options = array(
+	'yes' => elgg_echo('option:yes'),
+	'no' => elgg_echo('option:no'),
+);
 
 echo "<div>";
 echo elgg_echo("test_panel:settings:info");
@@ -15,17 +20,32 @@ echo elgg_view("input/text", array(
 echo "</div>";
 
 echo "<div>";
-echo "<label>" . elgg_echo("test_panel:settings:message_title") . "</label>";
-echo elgg_view("input/text", array(
+echo "<label>" . elgg_echo("test_panel:settings:limit_notifications") . "</label>";
+echo elgg_view("input/select", array(
+	"name" => "params[limit_notifications]",
+	"value" => $plugin->limit_notifications,
+	"options_values" => $yesno_options,
+	"class" => "mls"
+));
+echo "<div class='elgg-subtext'>" . elgg_echo('test_panel:settings:limit_notifications:description') . "</div>";
+echo "</div>";
+
+$title = elgg_echo('test_panel:settings:message');
+
+$content = "<div class='mbm'>";
+$content .=  "<label>" . elgg_echo("test_panel:settings:message_title") . "</label>";
+$content .= elgg_view("input/text", array(
 	"name" => "params[message_title]",
 	"value" => $plugin->message_title,
 ));
-echo "</div>";
+$content .= "</div>";
 
-echo "<div>";
-echo "<label>" . elgg_echo("test_panel:settings:message_content") . "</label>";
-echo elgg_view("input/longtext", array(
+$content .= "<div>";
+$content .= "<label>" . elgg_echo("test_panel:settings:message_content") . "</label>";
+$content .= elgg_view("input/longtext", array(
 	"name" => "params[message_content]",
 	"value" => $plugin->message_content,
 ));
-echo "</div>";
+$content .= "</div>";
+
+echo elgg_view_module('inline', $title, $content);
