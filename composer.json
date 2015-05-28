@@ -1,0 +1,17 @@
+{
+	"name": "coldtrick/test_panel",
+	"description": "Limit site access to a special group",
+	"type": "elgg-plugin",
+	"keywords": ["elgg", "plugin"],
+	"license": "GPL-2.0",
+	"support": {
+		"source": "https://github.com/ColdTrick/test_panel",
+		"issues": "https://github.com/ColdTrick/test_panel/issues"
+	},
+	"require": {
+		"composer/installers": "^1.0.8"
+	},
+	"require-dev": {
+		"coldtrick/sniffs": "dev-master"
+	}
+}
