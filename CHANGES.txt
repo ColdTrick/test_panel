@@ -1,4 +1,12 @@
-# Version History
+Version History
+===============
+
+1.0 (2016-01-21):
+
+- added: blocking of outgoing emails for non test panel members (admin setting)
+- added: composer support
+- added: Dutch translation
+- fixed: do not return quick if empty group guids
 
 0.1 (2014-11-21):
 
