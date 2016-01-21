@@ -16,7 +16,7 @@ function test_panel_init() {
 	elgg_register_event_handler('pagesetup', 'system', 'test_panel_pagesetup');
 	
 	// plugin hooks
-	elgg_register_plugin_hook_handler('email', 'system', array('\ColdTrick\TestPanel\EmailHandler', 'email'), 1);
+	elgg_register_plugin_hook_handler('email', 'system', '\ColdTrick\TestPanel\EmailHandler::email', 1);
 }
 
 /**

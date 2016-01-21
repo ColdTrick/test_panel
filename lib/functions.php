@@ -32,7 +32,7 @@ function test_panel_get_group_guids() {
 	static $result;
 	
 	if (!isset($result)) {
-		$result = array();
+		$result = [];
 		
 		$setting = elgg_get_plugin_setting('group_guids', 'test_panel');
 		if (!empty($setting)) {
@@ -52,7 +52,7 @@ function test_panel_get_panel_members_email_addresses() {
 	static $result;
 	
 	if (!isset($result)) {
-		$result = array();
+		$result = [];
 		
 		$dbprefix = elgg_get_config('dbprefix');
 		
@@ -63,14 +63,14 @@ function test_panel_get_panel_members_email_addresses() {
 				FROM {$dbprefix}entity_relationships
 				WHERE relationship = 'member'
 				AND guid_two IN (" . implode(',', $group_guids) . ")
-				)";
+			)";
 		}
 		
 		$query = "SELECT email
 			FROM {$dbprefix}users_entity
 			WHERE admin = 'yes'
 			{$groups_where}
-			";
+		";
 		
 		$data = get_data($query);
 		if (!empty($data)) {

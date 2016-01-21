@@ -12,24 +12,24 @@ class EmailHandler {
 	 * @param array  $returnvalue the current return value
 	 * @param array  $params      supplied params
 	 *
-	 * @return array|false
+	 * @return void|false
 	 */
 	public static function email($hook, $type, $returnvalue, $params) {
 		
 		if (empty($returnvalue) || !is_array($returnvalue)) {
 			// someone else already send the emails
-			return $returnvalue;
+			return;
 		}
 		
 		if (!test_panel_limit_notifications()) {
 			// don't limit e-mails
-			return $returnvalue;
+			return;
 		}
 		
 		$to = elgg_extract('to', $returnvalue);
 		if (empty($to) || !is_string($to)) {
 			// don't know how to handle this
-			return $returnvalue;
+			return;
 		}
 		
 		$to = EmailHandler::sanitizeEmail($to);
@@ -48,7 +48,6 @@ class EmailHandler {
 		}
 		
 		// user is a panel member, so can receive e-mails
-		return $returnvalue;
 	}
 	
 	/**
@@ -66,7 +65,7 @@ class EmailHandler {
 		
 		// email address in format: some name<somename@domain.ext>
 		if (strpos($email, '<')) {
-			$matches = array();
+			$matches = [];
 			
 			preg_match('/<(.*)>/', $email, $matches);
 			$email = $matches[1];
