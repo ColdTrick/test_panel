@@ -4,7 +4,9 @@ $title = elgg_get_plugin_setting('message_title', 'test_panel', elgg_echo('admin
 $content = elgg_get_plugin_setting('message_content', 'test_panel', elgg_echo('limited_access'));
 
 // build page elements
-$head = elgg_view('page/elements/head');
+$head = elgg_view('page/elements/head', [
+	'title' => $title,
+]);
 
 $body = '<div class="elgg-page elgg-page-default elgg-page-test-panel">';
 $body .= '<div class="elgg-page-body">';

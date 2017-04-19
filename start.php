@@ -13,18 +13,18 @@ elgg_register_event_handler('init', 'system', 'test_panel_init');
  */
 function test_panel_init() {
 	
-	elgg_register_event_handler('pagesetup', 'system', 'test_panel_pagesetup');
+	elgg_register_event_handler('ready', 'system', 'test_panel_ready');
 	
 	// plugin hooks
 	elgg_register_plugin_hook_handler('email', 'system', '\ColdTrick\TestPanel\EmailHandler::email', 1);
 }
 
 /**
- * Check access of the user on page setup
+ * Check access of the user on system,ready
  *
  * @return void
  */
-function test_panel_pagesetup() {
+function test_panel_ready() {
 	$user = elgg_get_logged_in_user_entity();
 	
 	if (empty($user)) {
