@@ -1,4 +1,4 @@
-Version History
+Version history
 ===============
 
 1.0 (2016-01-21):
