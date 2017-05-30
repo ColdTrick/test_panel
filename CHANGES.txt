@@ -1,6 +1,10 @@
 Version history
 ===============
 
+1.1 (2017-05-30):
+
+- changed: use different event to check access
+
 1.0 (2016-01-21):
 
 - added: blocking of outgoing emails for non test panel members (admin setting)
