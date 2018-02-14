@@ -7,10 +7,7 @@ class EmailHandler {
 	/**
 	 * Prevent outgoing e-mail to non test panel members
 	 *
-	 * @param string $hook        the name of the hook
-	 * @param string $type        the type of the hook
-	 * @param array  $returnvalue the current return value
-	 * @param array  $params      supplied params
+	 * @param \Elgg\Hook $hook 'validate' 'system:email'
 	 *
 	 * @return void|false
 	 */
