@@ -14,10 +14,10 @@ class EmailHandler {
 	 *
 	 * @return void|false
 	 */
-	public static function email($hook, $type, $returnvalue, $params) {
+	public static function validate(\Elgg\Hook $hook) {
 		
-		if (empty($returnvalue) || !is_array($returnvalue)) {
-			// someone else already send the emails
+		if (!$hook->getValue()) {
+			// someone else already blocked this e-mail
 			return;
 		}
 		
@@ -26,13 +26,17 @@ class EmailHandler {
 			return;
 		}
 		
-		$to = elgg_extract('to', $returnvalue);
-		if (empty($to) || !is_string($to)) {
-			// don't know how to handle this
+		$email = $hook->getParam('email');
+		if (!$email instanceof \Elgg\Email) {
 			return;
 		}
 		
-		$to = EmailHandler::sanitizeEmail($to);
+		$recipient = $email->getTo();
+		if (!$recipient instanceof \Elgg\Email\Address) {
+			return;
+		}
+		
+		$to = $recipient->getEmail();
 		elgg_log("Test panel processing: {$to}", 'INFO');
 		
 		$allowed_emails = test_panel_get_panel_members_email_addresses();
@@ -48,29 +52,5 @@ class EmailHandler {
 		}
 		
 		// user is a panel member, so can receive e-mails
-	}
-	
-	/**
-	 * Strip out the name and leave only e-mail
-	 *
-	 * @param string $email the e-mail address to sanitize
-	 *
-	 * @return string
-	 */
-	public static function sanitizeEmail($email) {
-		
-		if (empty($email) || !is_string($email)) {
-			return $email;
-		}
-		
-		// email address in format: some name<somename@domain.ext>
-		if (strpos($email, '<')) {
-			$matches = [];
-			
-			preg_match('/<(.*)>/', $email, $matches);
-			$email = $matches[1];
-		}
-		
-		return trim($email);
 	}
 }

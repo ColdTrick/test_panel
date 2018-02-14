@@ -1,49 +1,44 @@
 <?php
 
+/* @var $plugin ElggPlugin */
 $plugin = elgg_extract('entity', $vars);
 
-$yesno_options = [
-	'yes' => elgg_echo('option:yes'),
-	'no' => elgg_echo('option:no'),
-];
+echo elgg_view('output/longtext', [
+	'value' => elgg_echo('test_panel:settings:info'),
+]);
 
-echo elgg_format_element('div', [], elgg_echo('test_panel:settings:info'));
-
-echo '<div>';
-echo elgg_format_element('label', [], elgg_echo('test_panel:settings:group_guids'));
-echo elgg_view('input/text', [
+echo elgg_view_field([
+	'#type' => 'text',
+	'#label' => elgg_echo('test_panel:settings:group_guids'),
 	'name' => 'params[group_guids]',
 	'value' => $plugin->group_guids,
 ]);
-echo '</div>';
 
-echo '<div>';
-echo elgg_format_element('label', [], elgg_echo('test_panel:settings:limit_notifications'));
-echo elgg_view('input/select', [
+echo elgg_view_field([
+	'#type' => 'checkbox',
+	'#label' => elgg_echo('test_panel:settings:limit_notifications'),
+	'#help' => elgg_echo('test_panel:settings:limit_notifications:description'),
 	'name' => 'params[limit_notifications]',
-	'value' => $plugin->limit_notifications,
-	'options_values' => $yesno_options,
-	'class' => 'mls',
+	'checked' => $plugin->limit_notifications !== 'no',
+	'default' => 'no',
+	'value' => 'yes',
+	'switch' => true,
 ]);
-echo elgg_format_element('div', ['class' => 'elgg-subtext'], elgg_echo('test_panel:settings:limit_notifications:description'));
-echo '</div>';
 
 $title = elgg_echo('test_panel:settings:message');
 
-$content = '<div class="mbm">';
-$content .= elgg_format_element('label', [], elgg_echo('test_panel:settings:message_title'));
-$content .= elgg_view('input/text', [
+$content = elgg_view_field([
+	'#type' => 'text',
+	'#label' => elgg_echo('test_panel:settings:message_title'),
 	'name' => 'params[message_title]',
 	'value' => $plugin->message_title,
 ]);
-$content .= '</div>';
 
-$content .= '<div>';
-$content .= elgg_format_element('label', [], elgg_echo('test_panel:settings:message_content'));
-$content .= elgg_view('input/longtext', [
+$content .= elgg_view_field([
+	'#type' => 'longtext',
+	'#label' => elgg_echo('test_panel:settings:message_content'),
 	'name' => 'params[message_content]',
 	'value' => $plugin->message_content,
 ]);
-$content .= '</div>';
 
-echo elgg_view_module('inline', $title, $content);
+echo elgg_view_module('info', $title, $content);
