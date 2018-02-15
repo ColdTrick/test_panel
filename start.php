@@ -25,13 +25,13 @@ function test_panel_init() {
  * @return void
  */
 function test_panel_ready() {
-	$user = elgg_get_logged_in_user_entity();
 	
+	$user = elgg_get_logged_in_user_entity();
 	if (empty($user)) {
 		return;
 	}
 	
-	if (elgg_is_admin_logged_in()) {
+	if (elgg_is_admin_logged_in() || stripos(_elgg_services()->request->getPathInfo(), '/cache') === 0) {
 		return;
 	}
 		
@@ -50,6 +50,6 @@ function test_panel_ready() {
 		}
 	}
 	
-	echo elgg_view('test_panel/wrapper');
+	echo elgg_view_resource('test_panel/no_access');
 	exit();
 }
