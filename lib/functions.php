@@ -85,7 +85,7 @@ function test_panel_get_panel_members_email_addresses() {
 		)
 	";
 	
-	$data = get_data($query);
+	$data = elgg()->db->getData($query);
 	if (!empty($data)) {
 		foreach ($data as $row) {
 			$result[] = $row->value;
