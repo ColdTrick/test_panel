@@ -31,14 +31,14 @@ $content = elgg_view_field([
 	'#type' => 'text',
 	'#label' => elgg_echo('test_panel:settings:message_title'),
 	'name' => 'params[message_title]',
-	'value' => $plugin->message_title,
+	'value' => $plugin->getSetting('message_title', elgg_echo('admin:legend:site_access')),
 ]);
 
 $content .= elgg_view_field([
 	'#type' => 'longtext',
 	'#label' => elgg_echo('test_panel:settings:message_content'),
 	'name' => 'params[message_content]',
-	'value' => $plugin->message_content,
+	'value' => $plugin->getSetting('message_content', elgg_echo('limited_access')),
 ]);
 
 echo elgg_view_module('info', $title, $content);
