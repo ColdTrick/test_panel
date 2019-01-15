@@ -8,7 +8,7 @@ return array (
   'test_panel' => 'Test panel',
   'test_panel:settings:info' => 'Zonder aanvullende configuratie wordt de toegang tot de site gelimiteerd tot site beheerders.
 Door het toevoegen van een of meerdere groep guids kun je de toegang tot de site uitbreiden met de opgegeven groepen.
-Alle leden van e geconfigureerde groepen kunnen de site benaderen.
+Alleen leden van de geconfigureerde groepen kunnen de site benaderen.
 Als je geen toegang hebt krijg je een eenvoudige pagina te zien met de geconfigureerde titel en bericht.',
   'test_panel:settings:group_guids' => 'Groep guids (komma gescheiden)',
   'test_panel:settings:limit_notifications' => 'Limiteer uitgaande e-mail notificaties tot test panel leden',
