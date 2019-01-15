@@ -71,8 +71,8 @@ class Bootstrap extends DefaultPluginBootstrap {
 			}
 		}
 		
-		$title = $this->plugin()->getSetting('message_title');
-		$content = $this->plugin()->getSetting('message_content');
+		$title = $this->plugin()->getSetting('message_title', elgg_echo('admin:legend:site_access'));
+		$content = $this->plugin()->getSetting('message_content', elgg_echo('limited_access'));
 		$content = elgg_view('output/longtext', [
 			'value' => $content,
 		]);
