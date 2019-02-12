@@ -58,18 +58,16 @@ class Bootstrap extends DefaultPluginBootstrap {
 		
 		$group_guids = test_panel_get_group_guids();
 		if (!empty($group_guids)) {
-			$groups = elgg_get_entities([
+			$group_membership_count = elgg_get_entities([
 				'type' => 'group',
 				'guids' => $group_guids,
-				'limit' => false,
-				'batch' => true,
+				'count' => true,
+				'relationship' => 'member',
+				'relationship_guid' => $user->guid,
 			]);
 			
-			/* @var $group \ElggGroup */
-			foreach ($groups as $group) {
-				if ($group->isMember($user)) {
-					return;
-				}
+			if ($group_membership_count > 0) {
+				return;
 			}
 		}
 		
