@@ -1,6 +1,13 @@
 Version history
 ===============
 
+2.0 (2019-03-27):
+
+- changed: increased minimal Elgg version to 3.0
+- changed: no access moved to failsafe viewtype
+- changed: no access page is now a resource view
+- changed: rewrite for Elgg 3.0
+
 1.1 (2017-05-30):
 
 - changed: use different event to check access
