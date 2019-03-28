@@ -34,7 +34,6 @@ class Bootstrap extends DefaultPluginBootstrap {
 		
 		$hooks->registerHandler('setting', 'plugin', __NAMESPACE__ . '\PluginSettings::convertArrayToString');
 		$hooks->registerHandler('validate', 'system:email', __NAMESPACE__ . '\EmailHandler::validate');
-		$hooks->registerHandler('validate', 'system:email', __NAMESPACE__ . '\EmailHandler::validate');
 	}
 	
 	/**
