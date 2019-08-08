@@ -79,8 +79,8 @@ class Bootstrap extends DefaultPluginBootstrap {
 		elgg_set_viewtype('failsafe');
 		
 		$content = elgg_view_page($title, $content);
-		
-		$response->respondWithError($content, ELGG_HTTP_FORBIDDEN);
+		$output = elgg_ok_response($content, '', '', ELGG_HTTP_FORBIDDEN);
+		$response->respondWithError($output);
 		exit(); // prevent the rest of the system to run
 	}
 }
