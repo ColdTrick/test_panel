@@ -16,27 +16,6 @@ class Bootstrap extends DefaultPluginBootstrap {
 	}
 	
 	/**
-	 * {@inheritDoc}
-	 * @see \Elgg\DefaultPluginBootstrap::init()
-	 */
-	public function init() {
-		
-		$this->registerHooks();
-	}
-	
-	/**
-	 * Register plugin hook handlers
-	 *
-	 * @return void
-	 */
-	protected function registerHooks() {
-		$hooks = $this->elgg()->hooks;
-		
-		$hooks->registerHandler('setting', 'plugin', __NAMESPACE__ . '\PluginSettings::convertArrayToString');
-		$hooks->registerHandler('validate', 'system:email', __NAMESPACE__ . '\EmailHandler::validate');
-	}
-	
-	/**
 	 * Validate access
 	 *
 	 * @return void
@@ -44,7 +23,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 	protected function validateAccess() {
 		
 		$user = elgg_get_logged_in_user_entity();
-		if (empty($user) || $user->isAdmin()) {
+		if (!$user instanceof \ElggUser || $user->isAdmin()) {
 			// no user or admin user
 			return;
 		}
@@ -57,10 +36,9 @@ class Bootstrap extends DefaultPluginBootstrap {
 		
 		$group_guids = test_panel_get_group_guids();
 		if (!empty($group_guids)) {
-			$group_membership_count = elgg_get_entities([
+			$group_membership_count = elgg_count_entities([
 				'type' => 'group',
 				'guids' => $group_guids,
-				'count' => true,
 				'relationship' => 'member',
 				'relationship_guid' => $user->guid,
 			]);

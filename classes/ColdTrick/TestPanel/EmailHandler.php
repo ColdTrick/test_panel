@@ -18,7 +18,7 @@ class EmailHandler {
 			return;
 		}
 		
-		if (!test_panel_limit_notifications()) {
+		if (elgg_get_plugin_setting('limit_notifications', 'test_panel') === 'no') {
 			// don't limit e-mails
 			return;
 		}
@@ -28,13 +28,14 @@ class EmailHandler {
 			return;
 		}
 		
-		$recipient = $email->getTo();
-		if (!$recipient instanceof \Elgg\Email\Address) {
+		$to = $email->getTo();
+		$cc = $email->getCc();
+		$bcc = $email->getBcc();
+		
+		$recipients = array_merge($to, $cc, $bcc);
+		if (empty($recipients)) {
 			return;
 		}
-		
-		$to = $recipient->getEmail();
-		elgg_log("Test panel processing: {$to}", 'INFO');
 		
 		$allowed_emails = test_panel_get_panel_members_email_addresses();
 		if (empty($allowed_emails) || !is_array($allowed_emails)) {
@@ -42,12 +43,19 @@ class EmailHandler {
 			return false;
 		}
 		
-		if (!in_array($to, $allowed_emails)) {
-			// user is not allowed to get e-mails
-			elgg_log("Test panel blocked: {$to}", 'NOTICE');
-			return false;
+		foreach ($recipients as $recipient) {
+			if (!$recipient instanceof \Elgg\Email\Address) {
+				continue;
+			}
+			
+			$to = $recipient->getEmail();
+			elgg_log("Test panel processing: {$to}", 'INFO');
+			
+			if (!in_array($to, $allowed_emails)) {
+				// user is not allowed to get e-mails
+				elgg_log("Test panel blocked: {$to}", 'NOTICE');
+				return false;
+			}
 		}
-		
-		// user is a panel member, so can receive e-mails
 	}
 }

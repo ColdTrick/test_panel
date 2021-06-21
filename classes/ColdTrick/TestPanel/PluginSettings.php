@@ -24,8 +24,7 @@ class PluginSettings {
 			return;
 		}
 		
-		$value = array_unique($value);
-		$value = array_filter($value);
+		$value = array_filter(array_unique($value));
 		
 		return implode(',', $value);
 	}

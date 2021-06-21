@@ -3,27 +3,7 @@
  * All helper functions are bundled here
  */
 
-/**
- * Limit outgoing e-mail to test panel members
- *
- * @return bool
- */
-function test_panel_limit_notifications() {
-	static $result;
-	
-	if (isset($result)) {
-		return $result;
-	}
-	
-	$result = true;
-	
-	$setting = elgg_get_plugin_setting('limit_notifications', 'test_panel');
-	if ($setting === 'no') {
-		$result = false;
-	}
-	
-	return $result;
-}
+use Elgg\Database\Select;
 
 /**
  * Get the configured group guids
@@ -61,35 +41,37 @@ function test_panel_get_panel_members_email_addresses() {
 	
 	$result = [];
 	
-	$dbprefix = elgg_get_config('dbprefix');
+	$select = Select::fromTable('metadata', 'md');
+	$select->select('md.value');
+	$select->joinEntitiesTable('md', 'entity_guid', 'inner', 'e');
+	$select->joinMetadataTable('e', 'guid', null, 'inner', 'mda');
+	$select->andWhere($select->compare('e.type', '=', 'user', ELGG_VALUE_STRING));
+	$select->andWhere($select->compare('md.name', '=', 'email', ELGG_VALUE_STRING));
 	
+	// admins
+	$ands = $select->merge([
+		$select->compare('mda.name', '=', 'admin', ELGG_VALUE_STRING),
+		$select->compare('mda.value', '=', 'yes', ELGG_VALUE_STRING),
+	]);
+	
+	// or group member
 	$group_guids = test_panel_get_group_guids();
-	$groups_where = '';
 	if (!empty($group_guids)) {
-		$groups_where = "OR (md.entity_guid IN (SELECT guid_one
-			FROM {$dbprefix}entity_relationships
-			WHERE relationship = 'member'
-			AND guid_two IN (" . implode(',', $group_guids) . ")
-		))";
+		$group_members = $select->subquery('entity_relationships');
+		$group_members->select('guid_one')
+			->where($select->compare('relationship', '=', 'member', ELGG_VALUE_STRING))
+			->andWhere($select->compare('guid_two', 'in', $group_guids, ELGG_VALUE_GUID));
+		
+		$or = $select->compare('md.entity_guid', 'in', $group_members->getSQL());
+		
+		$ands = $select->merge([$ands, $or], 'OR');
 	}
 	
-	$query = "SELECT DISTINCT md.value
-		FROM {$dbprefix}metadata md
-		JOIN {$dbprefix}entities e ON md.entity_guid = e.guid
-		JOIN {$dbprefix}metadata mda ON e.guid = mda.entity_guid
-		WHERE e.type = 'user'
-		AND md.name = 'email'
-		AND (
-			(mda.name = 'admin' AND mda.value = 'yes')
-			{$groups_where}
-		)
-	";
+	$select->andWhere($ands);
 	
-	$data = elgg()->db->getData($query);
-	if (!empty($data)) {
-		foreach ($data as $row) {
-			$result[] = $row->value;
-		}
+	$data = elgg()->db->getData($select);
+	foreach ($data as $row) {
+		$result[] = $row->value;
 	}
 	
 	return $result;
