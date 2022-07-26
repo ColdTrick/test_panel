@@ -12,7 +12,7 @@ echo elgg_view_field([
 	'#label' => elgg_echo('test_panel:settings:group_guids'),
 	'#help' => elgg_echo('test_panel:settings:group_guids:help'),
 	'name' => 'params[group_guids]',
-	'value' => string_to_tag_array($plugin->group_guids),
+	'value' => elgg_string_to_array((string) $plugin->group_guids),
 ]);
 
 echo elgg_view_field([

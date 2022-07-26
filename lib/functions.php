@@ -19,9 +19,9 @@ function test_panel_get_group_guids() {
 	
 	$result = [];
 	
-	$setting = elgg_get_plugin_setting('group_guids', 'test_panel');
+	$setting = (string) elgg_get_plugin_setting('group_guids', 'test_panel');
 	if (!empty($setting)) {
-		$result = string_to_tag_array($setting);
+		$result = elgg_string_to_array($setting);
 	}
 	
 	return $result;
