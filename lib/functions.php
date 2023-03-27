@@ -10,7 +10,7 @@ use Elgg\Database\Select;
  *
  * @return array
  */
-function test_panel_get_group_guids() {
+function test_panel_get_group_guids(): array {
 	static $result;
 	
 	if (isset($result)) {
@@ -32,7 +32,7 @@ function test_panel_get_group_guids() {
  *
  * @return string[]
  */
-function test_panel_get_panel_members_email_addresses() {
+function test_panel_get_panel_members_email_addresses(): array {
 	static $result;
 	
 	if (isset($result)) {

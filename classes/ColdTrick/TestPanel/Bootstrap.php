@@ -4,14 +4,15 @@ namespace ColdTrick\TestPanel;
 
 use Elgg\DefaultPluginBootstrap;
 
+/**
+ * Plugin bootstrap
+ */
 class Bootstrap extends DefaultPluginBootstrap {
 	
 	/**
-	 * {@inheritDoc}
-	 * @see \Elgg\DefaultPluginBootstrap::boot()
+	 * {@inheritdoc}
 	 */
 	public function boot() {
-		
 		$this->validateAccess();
 	}
 	
@@ -20,8 +21,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 	 *
 	 * @return void
 	 */
-	protected function validateAccess() {
-		
+	protected function validateAccess(): void {
 		$user = elgg_get_logged_in_user_entity();
 		if (!$user instanceof \ElggUser || $user->isAdmin()) {
 			// no user or admin user
@@ -30,7 +30,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 		
 		$response = _elgg_services()->responseFactory;
 		if ($response->isAction()) {
-			// actions aren't proteced
+			// actions aren't protected
 			return;
 		}
 		

@@ -2,26 +2,28 @@
 
 namespace ColdTrick\TestPanel;
 
+/**
+ * Plugin setting related events
+ */
 class PluginSettings {
 	
 	/**
 	 * Convert arrays to a comma separated string so the plugin setting can be saved
 	 *
-	 * @param \Elgg\Hook $hook 'setting', 'plugin'
+	 * @param \Elgg\Event $event 'setting', 'plugin'
 	 *
-	 * @return void|string
+	 * @return null|string
 	 */
-	public static function convertArrayToString(\Elgg\Hook $hook) {
-		
-		if ($hook->getParam('plugin_id') !== 'test_panel') {
+	public static function convertArrayToString(\Elgg\Event $event): ?string {
+		if ($event->getParam('plugin_id') !== 'test_panel') {
 			// not correct plugin
-			return;
+			return null;
 		}
 		
-		$value = $hook->getValue();
+		$value = $event->getValue();
 		if (!is_array($value)) {
 			// not an array
-			return;
+			return null;
 		}
 		
 		$value = array_filter(array_unique($value));

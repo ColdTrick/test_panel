@@ -2,30 +2,32 @@
 
 namespace ColdTrick\TestPanel;
 
+/**
+ * Email system handler
+ */
 class EmailHandler {
 	
 	/**
-	 * Prevent outgoing e-mail to non test panel members
+	 * Prevent outgoing e-mail to non-test panel members
 	 *
-	 * @param \Elgg\Hook $hook 'validate' 'system:email'
+	 * @param \Elgg\Event $event 'validate' 'system:email'
 	 *
-	 * @return void|false
+	 * @return null|bool
 	 */
-	public static function validate(\Elgg\Hook $hook) {
-		
-		if (!$hook->getValue()) {
+	public static function validate(\Elgg\Event $event): ?bool {
+		if (!$event->getValue()) {
 			// someone else already blocked this e-mail
-			return;
+			return null;
 		}
 		
 		if (elgg_get_plugin_setting('limit_notifications', 'test_panel') === 'no') {
 			// don't limit e-mails
-			return;
+			return null;
 		}
 		
-		$email = $hook->getParam('email');
+		$email = $event->getParam('email');
 		if (!$email instanceof \Elgg\Email) {
-			return;
+			return null;
 		}
 		
 		$to = $email->getTo();
@@ -34,7 +36,7 @@ class EmailHandler {
 		
 		$recipients = array_merge($to, $cc, $bcc);
 		if (empty($recipients)) {
-			return;
+			return null;
 		}
 		
 		$allowed_emails = test_panel_get_panel_members_email_addresses();
@@ -57,5 +59,7 @@ class EmailHandler {
 				return false;
 			}
 		}
+		
+		return null;
 	}
 }

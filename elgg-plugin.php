@@ -12,7 +12,7 @@ return [
 	'settings' => [
 		'limit_notifications' => 'yes',
 	],
-	'hooks' => [
+	'events' => [
 		'setting' => [
 			'plugin' => [
 				'\ColdTrick\TestPanel\PluginSettings::convertArrayToString' => [],
