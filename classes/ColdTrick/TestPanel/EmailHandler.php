@@ -40,7 +40,7 @@ class EmailHandler {
 		}
 		
 		$allowed_emails = test_panel_get_panel_members_email_addresses();
-		if (empty($allowed_emails) || !is_array($allowed_emails)) {
+		if (empty($allowed_emails)) {
 			// nobody is allowed (shouldn't happen)
 			return false;
 		}

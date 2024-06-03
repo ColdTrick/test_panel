@@ -3,6 +3,8 @@
  * All helper functions are bundled here
  */
 
+use Elgg\Database\MetadataTable;
+use Elgg\Database\RelationshipsTable;
 use Elgg\Database\Select;
 
 /**
@@ -41,12 +43,12 @@ function test_panel_get_panel_members_email_addresses(): array {
 	
 	$result = [];
 	
-	$select = Select::fromTable('metadata', 'md');
-	$select->select('md.value');
-	$select->joinEntitiesTable('md', 'entity_guid', 'inner', 'e');
+	$select = Select::fromTable(MetadataTable::TABLE_NAME, 'md');
+	$select->select("{$select->getTableAlias()}.value");
+	$select->joinEntitiesTable($select->getTableAlias(), 'entity_guid', 'inner', 'e');
 	$select->joinMetadataTable('e', 'guid', null, 'inner', 'mda');
 	$select->andWhere($select->compare('e.type', '=', 'user', ELGG_VALUE_STRING));
-	$select->andWhere($select->compare('md.name', '=', 'email', ELGG_VALUE_STRING));
+	$select->andWhere($select->compare("{$select->getTableAlias()}.name", '=', 'email', ELGG_VALUE_STRING));
 	
 	// admins
 	$ands = $select->merge([
@@ -57,12 +59,12 @@ function test_panel_get_panel_members_email_addresses(): array {
 	// or group member
 	$group_guids = test_panel_get_group_guids();
 	if (!empty($group_guids)) {
-		$group_members = $select->subquery('entity_relationships');
+		$group_members = $select->subquery(RelationshipsTable::TABLE_NAME);
 		$group_members->select('guid_one')
 			->where($select->compare('relationship', '=', 'member', ELGG_VALUE_STRING))
 			->andWhere($select->compare('guid_two', 'in', $group_guids, ELGG_VALUE_GUID));
 		
-		$or = $select->compare('md.entity_guid', 'in', $group_members->getSQL());
+		$or = $select->compare("{$select->getTableAlias()}.entity_guid", 'in', $group_members->getSQL());
 		
 		$ands = $select->merge([$ands, $or], 'OR');
 	}

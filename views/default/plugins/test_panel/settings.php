@@ -26,8 +26,7 @@ echo elgg_view_field([
 	'switch' => true,
 ]);
 
-$title = elgg_echo('test_panel:settings:message');
-
+// message to non-test members
 $content = elgg_view_field([
 	'#type' => 'text',
 	'#label' => elgg_echo('test_panel:settings:message_title'),
@@ -42,4 +41,4 @@ $content .= elgg_view_field([
 	'value' => $plugin->message_content ?? elgg_echo('limited_access'),
 ]);
 
-echo elgg_view_module('info', $title, $content);
+echo elgg_view_module('info', elgg_echo('test_panel:settings:message'), $content);
