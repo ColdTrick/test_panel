@@ -2,6 +2,8 @@
 
 namespace ColdTrick\TestPanel;
 
+use Psr\Log\LogLevel;
+
 /**
  * Email system handler
  */
@@ -51,7 +53,7 @@ class EmailHandler {
 			}
 			
 			$to = $recipient->getEmail();
-			elgg_log("Test panel processing: {$to}", 'INFO');
+			elgg_log("Test panel processing: {$to}", LogLevel::INFO);
 			
 			if (!in_array($to, $allowed_emails)) {
 				// user is not allowed to get e-mails
