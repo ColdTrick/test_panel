@@ -57,7 +57,7 @@ class EmailHandler {
 			
 			if (!in_array($to, $allowed_emails)) {
 				// user is not allowed to get e-mails
-				elgg_log("Test panel blocked: {$to}", 'NOTICE');
+				elgg_log("Test panel blocked: {$to}", LogLevel::NOTICE);
 				return false;
 			}
 		}
