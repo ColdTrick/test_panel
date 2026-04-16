@@ -3,6 +3,7 @@
 namespace ColdTrick\TestPanel;
 
 use Psr\Log\LogLevel;
+use Symfony\Component\Mime\Address;
 
 /**
  * Email system handler
@@ -48,11 +49,11 @@ class EmailHandler {
 		}
 		
 		foreach ($recipients as $recipient) {
-			if (!$recipient instanceof \Elgg\Email\Address) {
+			if (!$recipient instanceof Address) {
 				continue;
 			}
 			
-			$to = $recipient->getEmail();
+			$to = $recipient->getAddress();
 			elgg_log("Test panel processing: {$to}", LogLevel::INFO);
 			
 			if (!in_array($to, $allowed_emails)) {

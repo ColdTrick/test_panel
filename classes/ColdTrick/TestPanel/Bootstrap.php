@@ -28,8 +28,7 @@ class Bootstrap extends DefaultPluginBootstrap {
 			return;
 		}
 		
-		$response = _elgg_services()->responseFactory;
-		if ($response->isAction()) {
+		if (_elgg_services()->request->isAction()) {
 			// actions aren't protected
 			return;
 		}
@@ -58,7 +57,8 @@ class Bootstrap extends DefaultPluginBootstrap {
 		
 		$content = elgg_view_page($title, $content);
 		$output = elgg_ok_response($content, '', '', ELGG_HTTP_FORBIDDEN);
-		$response->respondWithError($output);
+		
+		_elgg_services()->responseFactory->respondWithError($output);
 		exit(); // prevent the rest of the system to run
 	}
 }
